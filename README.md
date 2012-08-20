@@ -7,6 +7,6 @@ UIViewController (IconInTitle) category:
  * UIViewController+IconInTitle.h
  * UIViewController+IconInTitle.m
 
-	When using a UIViewController who's title appears in a Navigation Bar (like in UINavigation controller), 
+	When using a UIViewController who's title appears in a Navigation Bar (like in UINavigationController), 
 	this is a handy category that will add an Icon to the front of the title.
 	Just call the addIconToTitle method passing in the name of the icon.
