@@ -1,7 +1,7 @@
 iOSOddsAndEnds
 ==============
 
-Odds and ends that might be useful for iOS apps
+Odds and ends that might be useful for iOS apps.
 They are typically useful as-is, but could use some refining.
 
 UIViewController (IconInTitle) category:
