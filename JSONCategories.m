@@ -23,15 +23,22 @@
 #import "JSONCategories.h"
 
 @implementation NSObject (NSObject_NSJSONSerialization)
+- (NSString *)JSONString
+{
+    if ([NSJSONSerialization isValidJSONObject:self])
+    {
+        NSString *json = [[NSString alloc] initWithData:[self JSONData] encoding:NSUTF8StringEncoding];
+        return json;
+    }
+    return nil;
+}
 
-- (NSString *)JSONRepresentation
+- (NSData *)JSONData
 {
     if ([NSJSONSerialization isValidJSONObject:self])
     {
         NSError *jsonParsingError = nil;
-//        NSData *JSONData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:&jsonParsingError];
-        NSData *JSONData = [NSJSONSerialization dataWithJSONObject:self options:0 error:&jsonParsingError];
-        NSString *json = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
+        NSData *json = [NSJSONSerialization dataWithJSONObject:self options:0 error:&jsonParsingError];
         if (jsonParsingError)
         {
             NSLog(@"JSON Parsing Error: %@", jsonParsingError);
@@ -39,22 +46,42 @@
         return json;
     }
     return nil;
+    
 }
 
+- (NSString *)JSONRepresentation
+{
+    return [self JSONString];
+}
 @end
 
 @implementation NSString (NSString_NSJSONSerialization)
-
 - (id)JSONValue
 {
     NSError *jsonParsingError = nil;
     NSData *JSONData = [self dataUsingEncoding:NSUTF8StringEncoding];
-    id json = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&jsonParsingError];
+    id json = [NSJSONSerialization JSONObjectWithData:JSONData
+                                              options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves
+                                                error:&jsonParsingError];
     if (jsonParsingError)
     {
         NSLog(@"JSON Parsing Error: %@", jsonParsingError);
     }
     return json;
 }
+@end
 
+@implementation NSData (NSData_NSJSONSerialization)
+- (id)JSONValue
+{
+    NSError *jsonParsingError = nil;
+    id json = [NSJSONSerialization JSONObjectWithData:self
+                                              options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves
+                                                error:&jsonParsingError];
+    if (jsonParsingError)
+    {
+        NSLog(@"JSON Parsing Error: %@", jsonParsingError);
+    }
+    return json;
+}
 @end

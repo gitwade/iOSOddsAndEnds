@@ -22,9 +22,15 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (NSObject_NSJSONSerialization)
+- (NSString *)JSONString;
+- (NSData *)JSONData;
 - (NSString *)JSONRepresentation;
 @end
 
 @interface NSString (NSString_NSJSONSerialization)
+- (id)JSONValue;
+@end
+
+@interface NSData (NSData_NSJSONSerialization)
 - (id)JSONValue;
 @end
